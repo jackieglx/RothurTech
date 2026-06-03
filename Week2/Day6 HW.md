@@ -8,4 +8,3 @@
 
 ![page5](./Day6%20HW.assets/5.png)
 
-![page6](./Day6%20HW.assets/6.png)

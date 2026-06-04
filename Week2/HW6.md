@@ -1,3 +1,9 @@
+# S3 link
+
+https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-03-21-18-10.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260604%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260604T043456Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=7758deb84be66aaf8c4ed4415ad32823f940a0debc8eadf7c477188653f89ce1
+
+
+
 ## 1. Client-server model
 
 The client-server model means the client sends a request, and the server processes the request and returns a response.

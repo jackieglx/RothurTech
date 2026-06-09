@@ -1,3 +1,8 @@
+Recording links for **Day10 - 06/08/2026** Mock
+
+https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-09-11-02-33.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260609%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260609T180546Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a6ece6a4ec2e915c74d9d2769575192a47df1e1dd9585f1f1671f6165d589322
+
+
 Recording links for **Day9 - 06/05/2026** Mock
 
 https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-07-12-37-20.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260607%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260607T195339Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=e6fad5b428bf76eb362826630c7d8aa712422be7de7930696900e294fde2a366

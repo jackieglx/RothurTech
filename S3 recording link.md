@@ -2,6 +2,17 @@ Recording links for **Day10 - 06/08/2026** Mock
 
 https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-09-11-02-33.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260609%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260609T180546Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a6ece6a4ec2e915c74d9d2769575192a47df1e1dd9585f1f1671f6165d589322
 
+**what is pattern matching**
+
+Pattern matching for `instanceof` is a new feature in Java 17.
+
+It helps make type checking and type casting simpler. Before pattern matching, when we used the keyword `instanceof`, we had to check the type first and then manually cast the object.
+
+With pattern matching for `instanceof`, Java checks the object type and gives us a variable of that type directly, so we do not need to manually cast it.
+
+
+
+
 
 Recording links for **Day9 - 06/05/2026** Mock
 

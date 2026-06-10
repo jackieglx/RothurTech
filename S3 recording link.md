@@ -4,6 +4,10 @@ https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview
 
 
 
+https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-10-12-23-27.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260610%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260610T192757Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=cf77a5dc5ed406dc7243b2abf0a7413c5c9da3b919d9d282e181f42e16cd376b
+
+
+
 ## how to group people to key(age) value (list of people)
 
 If we are given a list of people, there are two ways to group them by age.
@@ -76,7 +80,59 @@ In terms of performance,
 
 
 
-Recording links for **Day10 - 06/08/2026** Mock
+## Java 11 new features
+
+Java 11 removed some Java EE and CORBA (/ˈkɔːr.bə/) modules from the JDK, so old applications may need to add separate dependencies. 
+
+- Java EE was later renamed to Jakarta EE. Starting from Jakarta EE 9, the package names changed from javax.* to jakarta.*. So if we use newer frameworks based on Jakarta EE 9 or later, such as Spring Boot 3 and Tomcat 10, we should use jakarta.* package names. 
+
+Java 11 also introduced the standard **HTTP Client API**.  It solves the problem that older Java HTTP APIs, like `HttpURLConnection`, were verbose and hard to use. The new HTTP Client provides a cleaner way to send HTTP requests, and it supports synchronous calls, asynchronous calls, and HTTP/2 (HTTP two).
+
+Java 11 also introduced some new garbage collectors, such as ZGC and Epsilon GC. ZGC focuses on low-latency garbage collection, and Epsilon is a no-op garbage collector mainly used for testing and performance experiments.
+
+
+
+## design the locking schema
+
+design the locking schema so that when a thread call method1(), it needs to wait until some other thread call method2()
+
+We can use `synchronized`, `wait()`, and `notifyAll()` to coordinate two methods. We also use a boolean flag called `method2Called`, which is initialized to false
+
+In `method1()`, the thread enters the synchronized block and checks the flag. If `method2Called` is false, it calls `lock.wait()` and releases the lock. The thread will stay waiting until another thread wakes it up.
+
+In `method2()`, the thread enters the same synchronized block, sets `method2Called` to true, and calls `lock.notifyAll()` to wake up the waiting thread.
+
+After `method1()` wakes up, it checks the condition again in the `while` loop. If the flag is true, it continues executing the rest of the logic.
+
+```Java
+public class LockingExample {
+
+    private final Object lock = new Object();
+    private boolean method2Called = false;
+
+    public void method1() throws InterruptedException {
+        synchronized (lock) {
+            while (!method2Called) {
+                lock.wait();
+            }
+
+            // method1 logic after method2 is called
+            System.out.println("method1 continues");
+        }
+    }
+
+    public void method2() {
+        synchronized (lock) {
+            method2Called = true;
+            lock.notifyAll();
+        }
+    }
+}
+```
+
+
+
+# Recording links for **Day10 - 06/08/2026** Mock
 
 https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-09-11-02-33.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260609%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260609T180546Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a6ece6a4ec2e915c74d9d2769575192a47df1e1dd9585f1f1671f6165d589322
 

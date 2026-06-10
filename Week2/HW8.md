@@ -66,7 +66,7 @@ A `Wrapper` represents one Servlet inside that web application.
 
 # what is web server
 
-A web server mainly handles HTTP or HTTPS traffic. It can serve static files, do reverse proxy, SSL termination, and load balancing. A web server usually does not execute business code. Examples are Nginx and Apache HTTP Server.  
+A web server mainly handles HTTP or HTTPS traffic. It can serve static files, do reverse proxy, SSL termination, and load balancing. A web server usually **does not execute business code.** Examples are Nginx and Apache HTTP Server.  
 
 An application server mainly runs backend application code, like Tomcat.
 

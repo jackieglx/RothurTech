@@ -1,3 +1,309 @@
+# Recording links for Day14 - 06/11/2026 Mock
+
+https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-15-09-33-42.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260615%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260615T171147Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=937b1ce861c1d6174ef20008feacbca63e62755987c54daa4ccc5ea764e0b9ce
+
+
+
+https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-15-09-57-48.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260615%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260615T171247Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=1e5b74ec360dbff1c26b6c2d7943813c219d6e6fba4346af2a05d10f5565f5a8
+
+
+
+
+
+
+
+## introduce what is Spring Framework
+
+Spring Framework has two core features, **IoC** and **AOP**.
+
+IoC means **Inversion of Control**. The idea is that Spring controls object creation and dependency management instead of developers doing it manually. This helps make the code loosely coupled, easier to test, and easier to maintain. 
+
+- The main IoC container we commonly use is `ApplicationContext`. 
+
+AOP means Aspect-Oriented Programming. It is used to add common functionality around the original business logic without changing the business code itself or introducing duplicated code everywhere.
+
+Spring later evolved into **Spring MVC** for web application development. 
+
+- Spring MVC is centered around the `DispatcherServlet`. The `DispatcherServlet` receives incoming HTTP requests from a servlet container such as Tomcat and uses `HandlerMapping` to find the correct controller method based on the request URL and HTTP method defined by mapping annotations such as `@RequestMapping`, `@GetMapping`, and `@PostMapping`.
+
+After that, Spring Boot was then built on top of Spring and Spring MVC. 
+
+- It provides auto-configuration, starter dependencies, and an embedded server such as Tomcat, so it greatly reduces manual configuration and boilerplate code.
+
+In my projects, I mainly use Spring Boot, but the underlying concepts are still Spring Framework concepts, especially IoC, DI, and AOP.
+
+ 
+
+
+
+## spring boot version you used
+
+I have used both **Spring Boot 2 and Spring Boot 3**.
+
+Spring Boot 2.x can support Java 8, 11, or 17, depending on the specific version. Spring Boot 3 requires Java 17 or later.
+
+Another important change is the migration from Java EE APIs to Jakarta EE APIs. Spring Boot 2 commonly uses packages under the `javax` namespace, while Spring Boot 3 uses the `jakarta` namespace. 
+
+ 
+
+## how do you define profile
+
+In Spring Boot, I usually define profiles by creating environment-specific configuration files, such as `application-dev.properties`. We can also use YAML files, such as `application-dev.yml`.
+
+Common environments include dev, QA, UAT, staging, and prod.
+
+We can activate a profile by setting `spring.profiles.active` in `application.properties` or `application.yml`. 
+
+We can also use the `@Profile` annotation on a component or configuration class. Spring only registers that bean when the specified profile is active.
+
+Profiles help separate environment-specific configurations and allow the same codebase to run in different environments.
+
+
+
+## What service discovery implementation have you used before?
+
+I have used Netflix Eureka for service discovery in a Spring Cloud microservice project. 
+
+Eureka works as a centralized service registry. When a Spring Boot service starts, it registers its service name, IP address, and port with the Eureka Server and sends heartbeats regularly.
+
+Other microservices can discover it by its service name instead of using a hard-coded IP address. If a service instance becomes unavailable, Eureka eventually removes it from the registry.
+
+In Spring Boot, we add the Eureka client dependency and configure the Eureka Server address. 
+
+In modern applications, many systems run on Kubernetes or cloud-managed Kubernetes platforms.
+
+Therefore, we often use Kubernetes Services and DNS for service discovery instead of deploying a separate Eureka Server.
+
+Compared with Eureka, Kubernetes not only provides built-in service discovery, but also automatically restarts or replaces failed Pods.
+
+
+
+## What is AOP
+
+AOP stands for Aspect-Oriented Programming.
+
+It is used to add common functionality around the original business logic without changing the business code itself or introducing duplicated code everywhere.
+
+There are two common ways that reflect the AOP idea. One is to define an aspect class using Spring AOP. The other is to use `@RestControllerAdvice` for global exception handling.
+
+- For a standard Spring AOP implementation, we use `@Aspect` on a class to define an aspect. We use `@Pointcut` to define where the AOP logic should be applied, and we use advice annotations to define when the logic should run.
+  - Common advice annotations include `@Before`, `@After`, `@AfterReturning`, `@AfterThrowing`, and `@Around`.
+
+- `@RestControllerAdvice` also reflects the AOP idea because it separates exception-handling logic from controller business logic. We put `@RestControllerAdvice` on a class to define a global exception handler, and we use `@ExceptionHandler` on methods inside that class to handle specific exceptions thrown by controllers.
+  - This allows us to keep common exception-handling logic in one place instead of writing repeated `try-catch` blocks in multiple controllers.
+  - `@RestControllerAdvice` is a Spring MVC mechanism for handling exceptions globally across multiple controllers. It reflects the AOP idea, but it is not implemented through standard Spring AOP.
+
+
+
+## How do you write Spring Boot to call from the frontend to the backend and save data to the database
+
+I use a three-layer architecture to handle the request flow from the frontend to the database.
+
+The top layer is the controller layer. I use `@RestController` on a class to define a controller. Inside the class, I use annotations such as `@GetMapping` and `@PostMapping` on methods to handle different HTTP requests.
+
+The second layer is the service layer, where I implement the business logic. We usually define a service interface and an implementation class. This gives us the flexibility to replace the implementation in the future without changing the code that uses the service.
+
+The third layer is the repository layer, which interacts with the database. With Spring Data JPA, we just need to define a repository interface that extends an interface such as `JpaRepository`. ,Then we automatically get common CRUD methods such as `save`, `findById`, `findAll`, and `deleteById`. For additional queries, we can declare custom query methods, and Spring Data JPA can generate the implementation based on the method name.
+
+- Spring Data JPA is a higher-level abstraction built on top of JPA. It makes data access easier and reduces boilerplate code. Under the hood, Hibernate is commonly used as the JPA implementation to perform the actual ORM operations.
+
+  
+
+## Describe Spring MVC
+
+Spring MVC is a web-layer framework.
+
+Spring MVC is centered around the `DispatcherServlet`. The `DispatcherServlet` receives incoming HTTP requests from a servlet container such as Tomcat and uses `HandlerMapping` to find the correct controller method based on the request URL and HTTP method defined by mapping annotations such as `@RequestMapping`, `@GetMapping`, and `@PostMapping`.
+
+The controller method usually calls the service layer to process the business logic. The service layer may then call the repository layer to access the database.
+
+After the request is processed, the result is returned to the controller. With `@RestController`, Spring automatically converts the returned object into JSON and writes it to the HTTP response body.
+
+
+
+## how do you validate input data in spring boot
+
+First, I define validation rules on the request DTO using annotations such as `@NotBlank`, `@Email`, and `@Size`. Then I add `@Valid` to the controller method parameter to trigger validation.
+
+When a request comes in, Spring validates the request data before executing the business logic. If validation fails, Spring throws a validation exception.
+
+To handle validation exceptions, I use `@RestControllerAdvice` on a class to define a global exception handler. Inside the class, I use `@ExceptionHandler` on a method to catch validation exceptions globally and return a consistent error response format.
+
+
+
+## Spring boot actuator
+
+Spring Boot Actuator is a dependency that provides endpoints for monitoring  our Spring Boot application status
+
+To use Actuator, first we need to add the Actuator dependency and then configure what endpoints are going to be exposed
+
+We use `/actuator/prometheus` to expose application metrics to Prometheus. Prometheus periodically collects these metrics and stores them as time-series data. Grafana then reads the data from Prometheus and displays it on dashboards.
+
+In production, I would only expose the endpoints I need and protect sensitive endpoints 
+
+
+
+## what is controller how you use controller how you implement controller
+
+A controller is the top layer of the three-layer architecture.
+
+The way that we are going to implement the controller is to use `@RestController` on a class to register it  as a bean. Inside the class, we use annotations such as `@GetMapping` and `@PostMapping` on methods to handle different HTTP requests.
+
+It exposes RESTful endpoints to the client or UI, receives HTTP requests, calls the service layer, and returns HTTP responses.
+
+The controller should mainly handle request and response logic. The service layer handles the business logic, and the repository layer interacts with the database.
+
+In Spring, we use `@Controller` or `@RestController` on a class to define a controller.
+
+- `@RestController` is equivalent to `@Controller` plus `@ResponseBody`. If a method in a `@RestController` returns a Java object, Spring automatically serializes it into JSON and writes it to the HTTP response body.
+
+Inside the controller class, we use annotations such as `@GetMapping`, `@PostMapping`, `@PutMapping`, and `@DeleteMapping` to map HTTP requests to specific methods.
+
+For controller method parameters, we can use `@RequestBody` to receive JSON data, `@PathVariable` to get values from the URL path, and `@RequestParam` to get query parameters.
+
+So overall, the controller acts as the entry point of the backend application and connects the client with the service layer.
+
+
+
+
+
+## what is webflux? Have you used it in your project
+
+Spring WebFlux is a reactive web framework used to build non-blocking and asynchronous applications.
+
+Spring provides two main web programming models. The first is Spring MVC, which is based on the Servlet API and commonly follows the traditional thread-per-request model. The second is Spring WebFlux, which is based on Project Reactor and supports reactive, non-blocking programming.
+
+In traditional Spring MVC, when a request thread starts a database or network I/O operation, the thread usually remains blocked until the result is returned.
+
+In WebFlux, the thread does not wait for the I/O operation to complete. It can process other requests, and the remaining logic continues when the result becomes available.
+
+However, Java 21 introduced virtual threads as a standard feature. Virtual threads allow traditional blocking Spring MVC applications to handle a large number of concurrent requests with lower thread overhead.
+
+Because virtual threads preserve the synchronous programming style, the code is usually easier to develop, debug, and maintain than reactive code based on `Mono` and `Flux`. Therefore, many teams no longer choose WebFlux only for the purpose of reducing thread usage. They usually choose WebFlux when the application has specific reactive or streaming requirements.
+
+
+
+I haven’t used it in an enterprise-level project.
+
+
+
+## how do you connect the database in springboot
+
+To connect a database in Spring Boot, I usually follow several steps.
+
+First, I add the required dependency, such as Spring Data JPA with the database driver, so that the application can connect to and interact with the database.
+
+Second, I configure the database connection in `application.properties` or `application.yml`. The main configurations include the database URL, username, password, and driver. I can also configure connection pool settings, such as the maximum pool size and connection timeout.
+
+Based on these configurations, Spring Boot automatically creates a `DataSource` and usually uses HikariCP as the default connection pool.
+
+After the connection is established, I use the repository layer to interact with the database. The repository layer is used for database operations, while the `DataSource` configuration is responsible for establishing the connection.
+
+ 
+
+## how do you handle global exception in spring boot
+
+In Spring Boot, I handle global exceptions using `@RestControllerAdvice` and `@ExceptionHandler`.
+
+First, I create a global exception handler class and annotate it with `@RestControllerAdvice`.
+
+Inside that class, I use `@ExceptionHandler` on methods to handle specific exception types. This allows the application to catch exceptions globally and return a consistent error response with the appropriate HTTP status code.
+
+I usually define custom runtime exceptions, such as `ResourceNotFoundException` or `BusinessException`, and throw them from the service layer when a resource cannot be found or a business rule is violated.
+
+Global exception handling avoids repeated `try-catch` blocks in every controller and keeps error handling consistent across the application.
+
+
+
+
+
+## Spring boot annotation
+
+The annotations I have used in Spring Boot applications related to IoC and dependency injection, AOP, and RESTful endpoint design.
+
+For IoC and dependency injection:
+
+- First, I use `@SpringBootApplication` on the main class to start the Spring Boot application. It enables component scanning and auto-configuration, which help Spring discover and register beans in the IoC container.
+- To register Spring beans, I use `@Controller`, `@RestController`, `@Service`, `@Repository`, and `@Component`. For third-party classes whose source code I cannot modify, I use `@Configuration` together with `@Bean`. I can also use `@Scope` to define different bean scopes.
+- For dependency injection, Spring supports field injection, constructor injection, and setter injection. I mainly use constructor injection because it makes dependencies explicit, prevents missing dependencies at startup, and makes unit testing easier. When a class has only one constructor, we do not need to add `@Autowired` explicitly.
+
+For AOP,there are two implementations that reflect the AOP idea. One is to define an aspect class using Spring AOP. The other is to use `@RestControllerAdvice` for global exception handling.
+
+- For a standard Spring AOP implementation, we use `@Aspect` on a class to define an aspect. We use `@Pointcut` to define where the AOP logic should be applied, and we use advice annotations to define when the logic should run.
+  - Common advice annotations include `@Before`, `@After`, `@AfterReturning`, `@AfterThrowing`, and `@Around`.
+- `@RestControllerAdvice` also reflects the AOP idea because it separates exception-handling logic from controller business logic. We put `@RestControllerAdvice` on a class to define a global exception handler, and we use `@ExceptionHandler` on methods inside that class to handle specific exceptions thrown by controllers.
+  - This allows us to keep common exception-handling logic in one place instead of writing repeated `try-catch` blocks in multiple controllers.
+  - `@RestControllerAdvice` is a Spring MVC mechanism for handling exceptions globally across multiple controllers. It reflects the AOP idea, but it is not implemented through standard Spring AOP.
+
+For RESTful endpoint design,  
+
+- I create a controller class with `@RestController` annotation, which is equivalent to `@Controller` and `@ResponseBody`
+- Then I use `@RequestMapping` to define the base URL.
+- For each endpoint, I use annotations like `@GetMapping`, `@PostMapping`, `@PutMapping`, and `@DeleteMapping`. 
+- I use `@PathVariable` to read values from the URL and `@RequestBody` to read JSON data from the request body. 
+- For the logic inside controller methods, the controller usually calls the service layer. The service layer handles the business logic and calls the repository layer to interact with the database. I'll use @Service on the service implementation class.
+
+ 
+
+
+
+## how Spring IOC work , all annotations and injection and bean types
+
+Spring IoC means Inversion of Control.
+
+Spring IoC works in several steps.
+
+- First, when a Spring Boot application starts, `SpringApplication.run()` creates and refreshes the `ApplicationContext`, which represents the IoC container. The `ApplicationContext` is responsible for reading configuration metadata, creating and managing Spring beans, injecting their dependencies, and managing their lifecycle.
+- Second, because `@SpringBootApplication` includes `@ComponentScan`, Spring scans the current package and its subpackages for classes annotated with `@Component`, `@Service`, `@Repository`, or `@Controller` and registers them as beans.
+- Third, Spring creates bean instances based on these bean definitions. By default, most Spring beans are singleton, so Spring creates one shared instance of each bean within the `ApplicationContext`.
+- Fourth, during bean creation, Spring finds and injects the required dependencies into each bean. This is called Dependency Injection.
+  - There are 3 common ways to do dependency injection in Spring: field injection, setter injection, and constructor injection. Constructor injection is the recommended way because it makes required dependencies clear and also makes unit testing easier because we can pass mock dependencies directly when creating the object
+- Finally, Spring invokes destruction callbacks when a bean’s scope ends. For example, singleton beans are destroyed when the `ApplicationContext` is closed. However, Spring does not manage the destruction of prototype beans.
+
+
+
+
+
+## Does Spring inject dependencies by type or by name?
+
+Spring can inject dependencies by both type and name. 
+
+`@Autowired` mainly works by type, while `@Resource` mainly works by name. 
+
+When multiple beans have the same type, we can use `@Qualifier` or `@Primary` to choose one.
+
+`@Autowired` can be used on fields, constructors, and setter methods, while `@Resource` can be used on fields and setter methods, but not constructors.
+
+For constructor injection, if the class has only one constructor, no annotation is required.
+
+Constructor injection is the recommended way because it makes required dependencies clear and also makes unit testing easier because we can pass mock dependencies directly when creating the object
+
+
+
+## Why do we want to use constructor injection?
+
+First it makes required dependencies clear, 
+
+Second, it helps prevent `NullPointerException` by ensuring that dependencies are provided when the object is created. It also supports fail-fast behavior. If a required dependency is missing, Spring reports the error during application startup or bean creation, instead of causing a `NullPointerException` later when the dependency is used.
+
+Third, it makes unit testing easier, because we can pass mock dependencies directly when creating the object
+
+
+
+## what java version can we use with spring boot 3
+
+Spring Boot 3 requires Java 17 or later. If we upgrade an application from Spring Boot 2 to Spring Boot 3, we may also need to upgrade the Java version to at least Java 17.
+
+
+
+## what is dispatcherservlet
+
+The `DispatcherServlet` is the front controller of Spring MVC. It receives HTTP requests, uses `HandlerMapping` to find the matching handler based on the URL and HTTP method, and dispatches the request to the correct controller method.
+
+
+
+
+
 # Recording links for **Day12 - 06/10/2026** Mock
 
 https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-10-23-26-23.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260611%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260611T063031Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a040da53d049cf37b5e9bb8fec952fbd63d0a84f3a5a8157d67f4ff9a50be59f
@@ -37,6 +343,36 @@ For infrastructure resources, such as database connection pools, cache clients, 
 
 
 PostgreSQL 项目里，我们通常面向 `DataSource` 编程，Spring Boot 默认用 HikariCP 作为底层连接池。业务代码不需要自己 new connection，也不需要自己写 singleton。
+
+在 Spring Boot 里，只要 classpath 上有 JDBC/JPA，并且配置了 `spring.datasource.url`、`username`、`password` 这类 datasource 配置，Spring Boot 会自动创建一个 `DataSource` Bean。默认优先使用 **HikariCP**，也就是 `HikariDataSource`。
+
+在 Spring Boot + PostgreSQL 里，如果你没有手动配置：
+
+```
+spring.datasource.hikari.maximum-pool-size=...
+spring.datasource.hikari.minimum-idle=...
+```
+
+那么 Spring Boot 自动创建 `HikariDataSource` 后，会使用 HikariCP 自己的默认值。
+
+通常默认是：
+
+```
+maximumPoolSize = 10
+minimumIdle = same as maximumPoolSize，也就是 10
+```
+
+
+
+只要项目里有 JDBC/JPA 相关依赖，并且配置了 database 相关信息，比如 `spring.datasource.url`、`username`、`password`，Spring Boot 就会自动创建一个 `DataSource` bean。
+
+默认情况下，Spring Boot 通常会使用 HikariCP 作为底层连接池实现，也就是创建一个 `HikariDataSource`。如果我们没有手动配置连接池大小，HikariCP 默认的 maximum pool size 通常是 10。
+
+所以在 Spring Boot 项目里，我们一般不需要自己手写 Singleton pattern 来管理数据库连接池。我们只需要让 Spring 管理 `DataSource` bean，然后业务代码通过依赖注入使用它。
+
+
+
+注册成 Spring bean
 
 
 

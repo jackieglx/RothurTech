@@ -1,3 +1,149 @@
+# Recording links for Day15 - 06/15/2026 Mock
+
+https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-16-10-14-52.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T172546Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=c663277a8008223b2b3031d97c7e32823558c94e9dc0d86f4354a83092c03d2f
+
+
+
+## how to increase young generation size in heap
+
+We can use `-XX:NewSize` to set the initial size of the young generation and `-XX:MaxNewSize` to set its maximum size.
+
+We can also use `-Xmn` to directly set the young generation size.
+
+`-XX:NewRatio` sets the ratio between the old generation and the young generation. A smaller value gives the young generation a larger proportion of the heap.
+
+However, when using G1 GC, we usually do not fix the young generation size because G1 dynamically adjusts it based on the pause-time goal.
+
+
+
+可以用 `-XX:NewSize` (dash X X colon New Size) 设置新生代初始大小，用 `-XX:MaxNewSize` 设置新生代最大大小。
+ 也可以用 `-Xmn` 直接指定新生代大小
+
+`-XX:NewRatio` 用于设置老年代与新生代的比例，值越小，新生代占比越大。
+
+使用 G1 GC 时一般不建议固定新生代大小，因为 G1 会根据停顿目标动态调整
+
+
+
+
+
+## how do you handle exception in java
+
+There are two main types of exceptions in Java: checked exceptions and unchecked exceptions.
+
+For checked exceptions, such as `IOException`, the compiler forces us to handle them at compile time. We must either catch them with a `try-catch` block or declare them using the `throws` keyword.
+
+- `try-catch` is used to catch and handle an exception. If we know that some code may fail, we can put it inside a `try` block and handle the exception in the `catch` block.
+- `throws` is used in the method signature to declare that the method may pass an exception to its caller.
+
+For unchecked exceptions, such as `RuntimeException`, the compiler does not force us to catch or declare them. They are often caused by programming errors or business rule violations.
+
+We can define custom exceptions to make business errors more meaningful and easier to handle. I usually define custom runtime exceptions, such as `ResourceNotFoundException`. 
+
+We use the `throw` keyword to explicitly throw a specific exception object.
+
+In Spring Boot, I usually use `@RestControllerAdvice` and `@ExceptionHandler` for global exception handling.
+
+- First, I create a global exception handler class and annotate it with `@RestControllerAdvice`.
+- Inside that class, I use `@ExceptionHandler` on different methods to handle specific exception types. This allows the application to handle exceptions globally and return a consistent error response with the appropriate HTTP status code.
+- Global exception handling avoids repeated `try-catch` blocks in every controller and keeps error handling consistent across the application.
+
+ 
+
+
+
+## what annotations we use to configure customized actuator
+
+If I need a custom Actuator endpoint, I can create a class and annotate it with `@Endpoint` and `@Component`. `@Endpoint` defines the endpoint ID, and `@Component` registers the class as a Spring bean.
+
+Inside the class, I can use `@ReadOperation`, `@WriteOperation`, and `@DeleteOperation` to define read, write, and delete operations. For a web endpoint, they are usually mapped to HTTP GET, POST, and DELETE requests.
+
+Finally, I need to expose the custom endpoint in `application.properties` by adding its endpoint ID to `management.endpoints.web.exposure.include`.
+
+
+
+
+
+## can abstract class have no abstract method
+
+Yes. An abstract class can have **zero abstract methods**.
+
+An abstract class does not have to contain abstract methods, but a class containing an abstract method must be declared abstract.
+
+ 
+
+## how can you use optional
+
+`Optional` is a container object that may or may not contain a non-null value. We need it because it makes null handling more explicit and helps reduce `NullPointerException`.
+
+We can create an `Optional` by using `Optional.of(value)` when the value is definitely not null, `Optional.ofNullable(value)` when the value may be null, and `Optional.empty()` when there is no value.
+
+To use it, we can call methods like `orElse(defaultValue)`, which means if the `Optional` has a value, it returns the actual value; otherwise, it returns the default value. We can also use `orElseThrow()` to throw an exception if the value is missing, and `ifPresent()` to run some logic only when the value exists.
+
+In practice, I usually use `Optional` as a return type when a method may not return a result
+
+
+
+ 
+
+## What is functional interface?
+
+A functional interface is an interface with only one abstract method.
+
+Functional Interface is commonly used with Lambda expressions to pass behavior as an argument.
+
+`Function`, `Consumer`, `Supplier`, and `Predicate` are common functional interfaces in Java.
+
+They are often used in the Stream API with methods such as `filter`, `map`, and `forEach`.
+
+
+
+## Why do you use post, instead of put
+
+**POST** is usually used to **create a new resource** or trigger an action. POST is not idempotent.
+
+**PUT** is usually used to **replace or update a whole resource** at a specific URL. PUT is idempotent.
+
+
+
+## what is webflux? Have you used it in your project
+
+Spring WebFlux is a reactive web framework used to build non-blocking and asynchronous applications.
+
+It uses non-blocking I/O and an event-loop model, so a small number of threads can handle many concurrent I/O-bound requests.
+
+Spring provides two main web programming models. The first is Spring MVC, which is based on the Servlet API and commonly follows the traditional thread-per-request model. The second is Spring WebFlux, which is based on Project Reactor and supports reactive, non-blocking programming.
+
+In traditional Spring MVC, when a request thread starts a database or network I/O operation, the thread usually remains blocked until the result is returned.
+
+In WebFlux, the thread does not wait for the I/O operation to complete. It can process other requests, and the remaining logic continues when the result becomes available.
+
+Its core types are `Mono` and `Flux`. `Mono` represents zero or one asynchronous result, while `Flux` represents zero to many asynchronous results.
+
+One disadvantage is that reactive code is more complex. Debugging, exception handling, and tracing can also be less intuitive than in Spring MVC.
+
+Java 21 Virtual Threads allow developers to keep the synchronous blocking programming model while supporting high concurrency for I/O-bound workloads. They also make it easier to migrate existing Spring MVC applications.
+
+Therefore, Virtual Threads reduce the need to choose WebFlux only for high concurrency. However, WebFlux is still a better choice when the application requires end-to-end reactive processing, back pressure, or continuous event streams.
+
+I haven’t used it in an enterprise-level project.
+
+
+
+## what is enable auto configuration
+
+`@EnableAutoConfiguration` is a Spring Boot annotation.
+
+It tells Spring Boot to automatically configure the application based on the dependencies on the classpath, existing beans, and configuration properties.
+
+For example, if we add Spring Data JPA and a database driver, Spring Boot can automatically configure a DataSource, JPA, and transaction management.
+
+Normally, we do not add it separately because `@SpringBootApplication` already includes `@EnableAutoConfiguration`.
+
+
+
+
+
 # Recording links for Day14 - 06/11/2026 Mock
 
 https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-15-09-33-42.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260615%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260615T171147Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=937b1ce861c1d6174ef20008feacbca63e62755987c54daa4ccc5ea764e0b9ce

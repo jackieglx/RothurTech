@@ -1,3 +1,151 @@
+# Recording links for Day16 - 06/17/2026 Mock
+
+https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-17-09-45-06.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260617%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260617T165654Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=b7b24db4d4cc75a0a49c50e53ea2e61271f81ac98b5d7f7957450aba230447ea
+
+
+
+## if we override hashcode not overriding equals
+
+If we override `hashCode()` but not `equals()`, logically equal objects will be treated as different keys after a hash collision.
+
+For hash-based data structures, adding or updating a logically equal key will create a new entry instead of updating the existing value. This can cause duplicate logical keys in `HashMap` or `HashSet`.
+
+Therefore, when we override `hashCode()`, we should always override `equals()` as well to maintain their contract.
+
+
+
+
+
+## how do you write restapi in spring boot
+
+RESTful API means we use URLs to represent resources and HTTP methods to represent actions.
+
+One important REST principle is that URLs should use nouns instead of verbs.
+
+We can also include the API version in the URL, such as `/api/v1/students`, so we can introduce new versions without breaking existing clients.
+
+To write REST APIs in Spring Boot, I create a controller class with `@RestController`annotation which is equivalent to `@Controller` plus `@ResponseBody`. 
+
+Then I use `@RequestMapping` to define the base URL.
+
+Inside the class, we use annotations such as `@GetMapping` and `@PostMapping` on methods to handle different HTTP requests.
+
+I use `@PathVariable` to read values from the URL, `@RequestParam` to get query parameters, and `@RequestBody` to read JSON data from the request body. 
+
+For the logic inside controller methods, the controller usually calls the service layer. The service layer handles the business logic and calls the repository layer to interact with the database.
+
+For responses, I use `ResponseEntity` to wrap the DTO because it allows me to set the HTTP status code, response headers, and response body.
+
+
+
+## what is thread state
+
+There are 6 Java thread states, including `NEW`, `RUNNABLE`, `BLOCKED`, `WAITING`, `TIMED_WAITING`, and `TERMINATED`.
+
+- A thread is in `NEW` state after we create a `Thread` object, but we haven't called the`start()`.
+- After we call `start()`, the thread enters `RUNNABLE` state. `RUNNABLE` means the thread is ready to run or is actually running. The real execution depends on the JVM and OS thread scheduler
+- A thread enters `BLOCKED` state when it tries to enter a `synchronized` block or method, but another thread already holds the monitor lock. When the lock is released and this thread gets the lock, it goes back to `RUNNABLE`.
+- A thread enters `WAITING` state when it calls methods like `wait()` or `join()` without timeout. For `wait()`, the thread releases the monitor lock and waits for `notify()` or `notifyAll()`. After being notified, it turns to BLOCKED state and is able to compete for the lock again. After it gets the lock, it goes back to `RUNNABLE`.
+- A thread enters `TIMED_WAITING` state when it calls methods with a timeout, such as `sleep(time)`, `wait(time)`, or `join(time)`. 
+- A thread enters `TERMINATED` state when its `run()` method finishes or throws an uncaught exception.
+
+
+
+
+
+## what is thread local
+
+`ThreadLocal` provides a separate copy of a variable for each thread, so threads do not share that value. 
+
+ It is useful when data should belong to the current thread, such as a user ID, trace ID, or request context. 
+
+ Internally, each `Thread` contains a `ThreadLocalMap`, and the `ThreadLocal` object is used as the key to store and retrieve the value. When we call `set()` method, it stores the value in the current thread’s map. When we call `get()`, it reads the value from that same map.
+
+Some common use cases for `ThreadLocal` include storing authentication information, transaction context, request metadata, and logging trace IDs.
+
+We should call `remove()` in a `finally` block because pooled threads are reused, and stale values may cause memory leaks.
+
+
+
+## what is CORS
+
+CORS means **Cross-Origin Resource Sharing**. It is a browser security mechanism. It controls whether a web page can request data from a different origin. An origin includes the protocol, domain, and port. For example, `localhost:3000` calling `localhost:8080` is cross-origin because the port is different. The browser blocks some cross-origin requests by default for security reasons. If the backend wants to allow it, it needs to add CORS headers, such as `Access-Control-Allow-Origin`.
+
+In Spring Boot, we can configure CORS by using `@CrossOrigin` or by defining a global CORS configuration class with `@Configuration`.
+
+`@CrossOrigin` can be placed on a controller class or on a controller method. It means that those APIs are allowed to receive cross-origin requests from the configured origins.
+
+- When we use `@CrossOrigin` or define a global CORS configuration, we do not need to manually add CORS response headers such as `Access-Control-Allow-Origin`.
+- Spring automatically adds the appropriate CORS headers based on our configuration.
+
+
+
+## Map vs filter
+
+In terms of purpose, `map()` transforms each element in the stream into another element and may change its type, while `filter()` keeps or removes elements based on a condition without changing their type.
+
+In terms of parameter types, `map()` accepts a `Function<T, R>`, while `filter()` accepts a `Predicate<T>`.
+
+
+
+## how to send request from angular to backend
+
+In Angular, I use `HttpClient` to send HTTP requests to the backend.
+
+First, I provide `HttpClient` in the application and inject it into an Angular service.
+
+Then I can use `get`, `post`, `put`, and `delete` methods to call different backend endpoints.
+
+`HttpClient` handles HTTP requests asynchronously. It returns an `Observable`, and we usually subscribe to it to receive and process the response from the backend.
+
+If the Angular application and backend are running on different origins, the backend must configure CORS to allow the request.
+
+In a real project, I may also use an HTTP interceptor to add authentication tokens and handle common errors.
+
+
+
+`HttpClient` 不会直接把最终结果返回给你，而是先返回一个 `Observable`，它代表“未来可能收到的响应”。当代码调用 `subscribe()` 时，Angular 才真正发送 HTTP 请求，并在收到响应后执行对应的处理逻辑。
+
+
+
+## what is pattern matching
+
+Pattern matching for `instanceof` is a new feature in Java 17.
+
+It helps make type checking and type casting simpler. Before pattern matching, when we used the keyword `instanceof`, we had to check the type first and then manually cast the object.
+
+With pattern matching for `instanceof`, Java checks the object type and gives us a variable of that type directly, so we do not need to manually cast it.
+
+
+
+
+
+## Spring boot actuator
+
+Spring Boot Actuator is a dependency that provides endpoints for monitoring  our Spring Boot application status
+
+To use Actuator, first we need to add the Actuator dependency and then configure what endpoints are going to be exposed. 
+
+In production, I would only expose the endpoints I need and protect sensitive endpoints 
+
+
+
+We usually use Actuator together with Micrometer, Prometheus, and Grafana.
+
+Spring Boot auto-configures Micrometer and collects common application metrics for us.
+
+Prometheus periodically collects these metrics and stores them as time-series data. 
+
+Grafana then reads the data from Prometheus and displays it on dashboards.
+
+
+
+
+
+
+
+
+
 # Recording links for Day15 - 06/15/2026 Mock
 
 https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-16-10-14-52.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260616%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260616T172546Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=c663277a8008223b2b3031d97c7e32823558c94e9dc0d86f4354a83092c03d2f

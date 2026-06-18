@@ -1,3 +1,128 @@
+# Recording links for Day17 - 06/17/2026 Mock
+
+https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-18-09-45-54.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260618%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260618T165713Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a022bbbb35cfb49d57620375b5fa54fccf959107b0e24b2abe29cdca1969c25f
+
+
+
+## equals vs ==
+
+`==` compares whether two references point to the same object in memory.
+
+For  `equals()` method, if we override it, it compares whether two objects are logically equal. If we do not override it, it also compares object references.
+
+Also, if we override `equals()`, we should always override `hashCode()` as well, especially when the object is used in `HashMap`, `HashSet`, or other hash-based collections.
+
+ 
+
+## java 17 features
+
+Java17 features include record classes, sealed class, and pattern matching for `instanceof`.
+
+A record in Java is a special class used to store immutable data with less boilerplate code. It automatically generates the constructor, getter methods, `equals()`, `hashCode()`, and `toString()`.
+
+- By default, all fields in a record are private and final.
+- However, a record is not deeply immutable if it contains mutable objects such as a `List`.
+- We need it because many classes are only used to carry data, such as DTOs. In those cases, We usually do not need to change the data after the object is created.   
+
+
+
+A sealed class can control which classes are allowed to extend it.
+
+- We need it because sometimes we want inheritance, but we do not want any random class to extend our base class. 
+
+- In Java, we use the `sealed` keyword before the parent class name, and use the keyworkd`permits` to list the allowed child classes. Each child class must be marked as `final`, `sealed`, or `non-sealed`.
+
+
+
+Pattern matching for `instanceof` helps make type checking and type casting simpler. Before pattern matching, when we used the keyword `instanceof`, we had to check the type first and then manually cast the object.
+
+- With pattern matching for `instanceof`, Java checks the object type and gives us a variable of that type directly, so we do not need to manually cast it.
+
+
+
+## java 21 features
+
+The most important feature in java 21 is virtual thread.
+
+**A virtual thread is a lightweight thread managed by the JVM rather than directly by the operating system.**
+
+We need virtual threads because each platform thread maps to an operating system thread, so creating too many platform threads consumes significant memory and scheduling resources.
+
+Virtual threads are much cheaper to create and are suitable for I/O-bound blocking tasks, such as database calls and REST API calls.
+
+They allow applications to handle high concurrency using simple synchronous code instead of using complicated reactive programming such as WebFlux.
+
+A virtual thread runs on a carrier thread, which is an underlying platform thread.
+
+When the virtual thread is blocked on I/O, the JVM can unmount it, allowing the carrier thread to run another virtual thread.
+
+
+
+## how to inject bean with same type
+
+When multiple beans have the same type, we can use `@Qualifier` on a constructor parameter or method parameter to specify which bean should be injected.
+
+We can also use `@Primary` on a bean class or a `@Bean` method to mark it as the default bean when multiple beans have the same type.
+
+
+
+## oop 4 principles
+
+OOP has four main principles: **encapsulation, inheritance, polymorphism, and abstraction**.
+
+- Encapsulation means hiding internal data and exposing behavior through methods. In Java, we implement it by using 4 access modifiers: public, private, protected, default
+- Inheritance means a child class can reuse and extend behavior from a parent class or follow a contract defined by an interface. In Java, we use `extends` for class inheritance and `implements` for interfaces.
+- Polymorphism means the same method name or method call can have different behaviors. Java has two types of polymorphism: compile-time polymorphism and runtime polymorphism. Compile-time polymorphism is achieved through method overloading, which means multiple methods have the same name but different parameters. Runtime polymorphism is achieved through method overriding, usually with inheritance or interfaces, which means the actual object type determines which method implementation is executed at runtime.
+- Abstraction means hiding implementation details and exposing only important behavior. In Java, we implement it with interfaces and abstract classes.
+
+## what is Executors library
+
+`Executors` is a utility class that provides factory methods for creating different types of thread pools.
+
+For example, `newFixedThreadPool()` creates a thread pool with a fixed number of threads, but it uses an unbounded `LinkedBlockingQueue` to store waiting tasks, so the queue may keep growing and eventually cause an `OutOfMemoryError` if tasks arrive faster than they can be processed.
+
+`newCachedThreadPool()` creates a thread pool that creates new threads when needed and reuses previously created idle threads. It does not have a fixed maximum number of threads, so the pool can grow very large when many tasks arrive at the same time.
+
+In real projects, I usually avoid using the Executors utility class to create thread pools for backend services. I prefer creating a custom ThreadPoolExecutor with a bounded queue, a proper thread count, and a clear rejection policy.
+
+
+
+
+
+## what is thread local
+
+`ThreadLocal` provides a separate copy of a variable for each thread, so threads do not share that value. 
+
+ It is useful when data should belong to the current thread, such as a user ID, trace ID, or request context. 
+
+ Internally, each `Thread` contains a `ThreadLocalMap`, and the `ThreadLocal` object is used as the key to store and retrieve the value. When we call `set()` method, it stores the value in the current thread’s map. When we call `get()`, it reads the value from that same map.
+
+Some common use cases for `ThreadLocal` include storing authentication information, transaction context, request metadata, and logging trace IDs.
+
+We should call `remove()` in a `finally` block because pooled threads are reused, and stale values may cause memory leaks.
+
+
+
+
+
+## garbage collector
+
+Garbage Collection is Java’s automatic memory management mechanism, so developers do not need to manually release memory like in C or C++.
+
+Java GC uses reachability analysis to determine whether an object is still reachable. If an object is no longer reachable, the JVM can reclaim its heap memory automatically. Some GC work can run concurrently with the application, but certain phases may still cause Stop-the-World pauses.
+
+For the actual collection process, GC may combine algorithms like **Mark-Sweep**, **Mark-Compact**, and **Copying**.
+
+As developers, we can select and configure different garbage collectors through JVM options.
+
+Common modern collectors include G1 GC, ZGC, and Shenandoah GC. CMS is a legacy collector that was deprecated and later removed in JDK 14.
+
+
+
+
+
+
+
 # Recording links for Day16 - 06/17/2026 Mock
 
 https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-17-09-45-06.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260617%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260617T165654Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=b7b24db4d4cc75a0a49c50e53ea2e61271f81ac98b5d7f7957450aba230447ea

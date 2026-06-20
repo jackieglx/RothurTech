@@ -1,3 +1,78 @@
+# Recording links for Day18 - 06/18/2026 Mock
+
+https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-18-09-45-54.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260620%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260620T222305Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=e529438f91354719c1d1a06c5d3be4c5af76c313327efa3f2a5e94716b129ed6
+
+## how to write restapi in spring boot
+
+RESTful API means we use URLs to represent resources and HTTP methods to represent actions.
+
+One important REST principle is that URLs should use nouns instead of verbs.
+
+We can also include the API version in the URL, such as `/api/v1/students`, so we can introduce new versions without breaking existing clients.
+
+To write REST APIs in Spring Boot, I create a controller class with `@RestController`annotation which is equivalent to `@Controller` plus `@ResponseBody`. 
+
+Then I use `@RequestMapping` to define the base URL.
+
+Inside the class, we use annotations such as `@GetMapping` and `@PostMapping` on methods to handle different HTTP requests.
+
+I use `@PathVariable` to read values from the URL, `@RequestParam` to get query parameters, and `@RequestBody` to read JSON data from the request body. 
+
+For the logic inside controller methods, the controller usually calls the service layer. The service layer handles the business logic and calls the repository layer to interact with the database.
+
+For responses, I use `ResponseEntity` to wrap the DTO because it allows me to set the HTTP status code, response headers, and response body.
+
+
+
+## diff recursion and iteration
+
+**Recursion** means a function keeps calling itself to solve a smaller version of the same problem until it reaches a **base case**.
+
+**Iteration** means using a for loop or a while loop to repeat logic.
+
+In terms of memory, 
+
+- **recursion** uses the **call stack**. If recursion is too deep, it may cause **StackOverflowError**.
+- **Iteration** is usually more memory-efficient, so it is often preferred in production for simple repeated logic.
+
+In terms of readability, 
+
+- recursion can be cleaner for problems like tree traversal, DFS, and backtracking. 
+- For those problems, it can be harder to write the code using iteration.
+
+As a backend engineer, I’ll try to use iteration whenever possible to avoid a potential `StackOverflowError`.
+
+
+
+## what is fair lock
+
+A fair lock lets threads acquire the lock in the order they started waiting, so a thread that has waited longer gets priority.
+
+The main advantage is that it reduces the risk of thread starvation.
+
+However, fair locks usually have lower throughput because the JVM has less freedom to choose the next thread.
+
+In Java, `ReentrantLock` supports both fair and non-fair locking, while the `synchronized` keyword only provides non-fair locking.
+
+
+
+
+
+## how Spring IOC work , all annotations and injection and bean types
+
+Spring IoC means Inversion of Control.
+
+Spring IoC works in several steps.
+
+- First, when a Spring Boot application starts, it creates and refreshes the `ApplicationContext`, which represents the IoC container. The `ApplicationContext` is responsible for reading configuration metadata, creating and managing Spring beans, and injecting their dependencies.
+- Second, because we put`@SpringBootApplication` on the bootup class, and it includes 3 annotations. One of them is`@ComponentScan`, which let Spring scan the current package and its subpackages for classes annotated with `@Component`, `@Service`, `@Repository`, or `@Controller` and registers them as beans.
+- Third, Spring creates bean instances based on these bean definitions. By default, most Spring beans are singleton, so Spring creates one shared instance of each bean within the `ApplicationContext`.
+- Fourth, during bean creation, Spring finds and injects the required dependencies into each bean. This is called Dependency Injection.
+  - There are 3 common ways to do dependency injection in Spring: field injection, setter injection, and constructor injection. Constructor injection is the recommended way because it makes required dependencies clear and also makes unit testing easier because we can pass mock dependencies directly when creating the object
+- Finally, Spring invokes destruction callbacks when a bean’s scope ends. For example, singleton beans are destroyed when the `ApplicationContext` is closed. However, Spring does not manage the destruction of prototype beans.
+
+
+
 # Recording links for Day17 - 06/17/2026 Mock
 
 https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-18-09-45-54.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260618%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260618T165713Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a022bbbb35cfb49d57620375b5fa54fccf959107b0e24b2abe29cdca1969c25f

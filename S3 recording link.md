@@ -1,3 +1,160 @@
+# Recording links for 06/19/2026 Mock
+
+https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-21-11-54-28.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260621%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260621T190509Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=d6d7e8f5b5a71c61e4a6bb5f93aa4853987df79aed68b11f51f2599932a7513b
+
+
+
+## What is singleton design pattern
+
+Singleton Pattern ensures a class has **only one instance** in the entire application and provides a **global access point** to that instance.
+
+It is suitable when an object is expensive to create, needs to be shared globally, and logically should only have one instance. For example, shared resources such as a configuration manager, thread pool, or cache client, it can reduce memory usage and initialization overhead.
+
+The Singleton Design Pattern and the Spring singleton scope have a similar goal that is to reuse a single object instance.
+
+- But the Singleton Design Pattern controls the instance by itself.
+- A Spring singleton bean is created and managed by the Spring IoC container.
+
+
+
+## where can we set CORS (backend or frontend or both).
+
+CORS is mainly configured on the backend. The backend needs to add response headers like `Access-Control-Allow-Origin` to tell the browser which origins are allowed.
+
+CORS means **Cross-Origin Resource Sharing**. It is a browser security mechanism. It controls whether a web page can request data from a different origin. An origin includes the protocol, domain, and port. For example, `localhost:3000` calling `localhost:8080` is cross-origin because the port is different. The browser blocks some cross-origin requests by default for security reasons. If the backend wants to allow it, it needs to add CORS headers, such as `Access-Control-Allow-Origin`.
+
+In Spring Boot, we can configure CORS by using `@CrossOrigin` on a controller class or on a controller method or by defining a global CORS configuration class with `@Configuration`.
+
+
+
+
+
+## can you write hint in hibernate
+
+Hibernate query hints are additional instructions that control how Hibernate executes a query.
+
+For example, we can configure query timeout, read-only mode, caching, fetch size, or locking behavior.
+
+They may help optimize a specific query, but they are not commonly used for general performance tuning.
+
+In most cases, I would first optimize the SQL, add proper indexes, avoid N+1 queries, or use caching.
+
+
+
+Hibernate 里的 **Hint（查询提示）**，告诉 Hibernate：“这条查询应该用什么方式执行。”我们可以限制查询最多可以运行多长时间、告诉 Hibernate 查询数据时需要使用什么锁、告诉 Hibernate：查询出来的对象只用于读取，不会被修改。
+
+
+
+## monolithic vs microservices
+
+The differences can be explained in terms of architecture, communication, scalability, fault tolerance, and maintainability.
+
+In terms of architecture, a monolithic application keeps all features in one application, while microservices divide it into smaller independent services.
+
+In terms of scalability, a monolithic application is scaled as a whole and is more suitable for vertical scaling. But each microservice can be scaled independently based on its own traffic and workload.
+
+In terms of communication, modules in a monolithic application communicate through direct method calls, while microservices communicate over the network using REST APIs, RPC frameworks such as gRPC, or message queues.
+
+In terms of fault tolerance, a failure in one module of a monolithic application may affect the entire application. In microservices, services are relatively independent, so failures can be isolated by using mechanisms such as circuit breakers, retries, and fallbacks.
+
+In terms of maintainability, a monolithic application keeps all modules in one codebase and is usually tested and deployed as a whole. Microservices allow each service to be developed, tested, and deployed independently, but they introduce more operational and distributed system complexity.
+
+
+
+
+
+
+
+## if we have microservices calling each other a -> b -> c , and if some of them are returning 500 / errors, what should we do
+
+A 500 error means something went wrong on the server side.
+
+First, I would check the logs, distributed tracing, and monitoring metrics to identify which service is returning the 500 error and where the failure starts in the call chain.
+
+Then, I would reduce the impact by routing traffic to another healthy instance, restarting the failed service, or returning a fallback response.
+
+I would also use timeouts, limited retries, and a circuit breaker to prevent the failure from spreading to other services.
+
+If the request can be processed later, I can store it in a message queue and retry it after the service recovers.
+
+Finally, I would analyze the application logs, dependency status, database status, and infrastructure status to find and fix the root cause.
+
+ 
+
+## how do you secure communication in microservice
+
+The communication between microservices can be secured in terms of network isolation, encryption, access control, and monitoring.
+
+In terms of network isolation, only the API Gateway should be exposed to the public. Other services, databases, and caches should stay in a private network.
+
+In terms of access control, the API Gateway should handle user authentication and authorization. Internal services should also verify each other using service tokens or mutual TLS.
+
+In terms of encryption, we should use HTTPS or mutual TLS to encrypt data in transit.
+
+In terms of monitoring, we should record access logs and monitor suspicious or unauthorized requests.
+
+
+
+普通 HTTPS 通常适合 browser-to-server communication。
+
+mTLS 常用于 microservice-to-microservice communication，因为服务端也需要确认调用方是不是合法服务。
+
+HTTPS uses TLS to encrypt HTTP communication. Normally, only the client verifies the server’s certificate. Mutual TLS is a stronger form of TLS where both sides verify each other’s certificates. Therefore, mTLS can be used with HTTPS to provide both encryption and two-way authentication.
+
+
+
+
+
+
+
+## SQL: join, group by and count
+
+JOIN is used to combine related data from multiple tables. 
+
+There are four main types of JOIN: INNER JOIN, LEFT JOIN, RIGHT JOIN, and FULL OUTER JOIN.
+
+
+
+`GROUP BY` means grouping rows by one or more columns.
+
+Every non-aggregated column in the SELECT clause should appear in the GROUP BY clause.
+
+
+
+COUNT is an aggregate function in SQL that is used to count records.
+
+COUNT(*) counts all rows.
+
+COUNT(column) counts only the rows where that column is not NULL.
+
+COUNT is often used with GROUP BY. For example, we can count the number of employees in each department.
+
+
+
+## Why do we use database indexes
+
+We use database indexes to improve read performance.
+
+An index helps the database find records without scanning the entire table. Most database indexes are implemented using a B+ Tree. The two common types are clustered indexes and non-clustered indexes.
+
+However, an index is an additional data structure, so it requires extra storage. During INSERT, UPDATE, and DELETE operations, the database must update both the table data and the related indexes. Therefore, having too many indexes can slow down write operations.
+
+We usually create indexes on columns that are frequently used in WHERE conditions, JOIN conditions, ORDER BY, and GROUP BY. 
+
+
+
+数据库索引用来加快数据查询速度，减少全表扫描。
+
+索引通常基于 B+ 树等数据结构
+
+索引也有代价，因为会占用额外的磁盘空间。
+
+执行 `INSERT`、`UPDATE`、`DELETE` 时，数据库还需要维护索引，因此写入性能可能下降。
+
+所以索引应该建立在经常查询、排序或关联的字段上，而不是越多越好。
+
+
+
 # Recording links for Day18 - 06/18/2026 Mock
 
 https://xiao-java-05182026-demo-bucket.s3.us-west-2.amazonaws.com/mock-interview/2026-06-18-09-45-54.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAW3MEATYNQS2XOAZB%2F20260620%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260620T222305Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=e529438f91354719c1d1a06c5d3be4c5af76c313327efa3f2a5e94716b129ed6
